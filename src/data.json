@@ -1,0 +1,27 @@
+[ 
+    {
+    "name": {
+            "firstName": "vishal",
+            "lastName": "prajapati",
+            "middleName" :"bharatBhai",
+            "prefix" : "MR",
+            "nickName" : "vishal"
+        },
+    "Address" : {
+            "line1": "12322 data",
+            "line2": "data2",
+            "zipCode" : "33617",
+            "city" : "jersey",
+            "state" : "NJ",
+            "country" : "USA"
+    },
+    "friends" : [
+        "friesnd1",
+        "friends2"
+    ],
+    "hobbies": [
+        "hobbies1",
+        "hobbies2"
+    ]   
+ }
+]
