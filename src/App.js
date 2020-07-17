@@ -1,48 +1,33 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux';
-import value from "./data.json";
+// import value from "./data.json";
 import './App.css';
 import {getData} from "./action";
 import { useSelector } from 'react-redux'
 import { useStore } from 'react-redux'
 
-class App extends Component {
-  state={
-    userInfo: []
-  }
-  componentDidMount() {
-    this.props.dispatch(getData());
-  }
+function App() {
+    const [user, setUserData] = useState([]);
+    const dispatch = useDispatch();
+    const store = useStore();
+    const userData = store.getState();
+
+    // const data = useSelector(state => state);
+    // console.log("data", data);
+
+    useEffect(() => {
+      if(user.length === 0 && userData.length === 0) { 
+          dispatch(getData());
+      }
+        if(userData && userData.length !== 0) {
+          setUserData(userData);
+        }
+    }, [userData]); 
 
 
-  componentDidUpdate(nextProps) {
-    if(nextProps.users !== this.props.users){
-      this.setState({
-        userInfo: this.props.users
-      })
-    }
-    console.log("nextProps",nextProps.users);
-    console.log("user did update",this.props.users)
-  }
 
-  onClickSelect = (index) => {
-    const {userInfo} = this.state
-    let tempUserData = userInfo;
-    let tempObj = tempUserData[index];
-    if(tempObj && !tempObj["selectRow"]) {
-      tempObj["selectRow"] = true
-    } else {
-      tempObj.selectRow = !tempObj.selectRow
-    }
-    tempUserData[index] = tempObj;
-    this.setState({
-      userInfo: tempUserData
-    })
-  }
-
-  render() {
-    const { userInfo } = this.state;
+    // const { userInfo } = this.state;
     return (
         <table id='userData'>
           <thead>
@@ -63,7 +48,7 @@ class App extends Component {
             </tr>
           </thead>
           <tbody>
-            {userInfo && userInfo.map((data, index)=> {
+            {user && user.map((data, index)=> {
               let friendData = "";
               let hobbiesValue = "";
               let selectRow = data && data.selectRow ? data.selectRow : false;
@@ -108,7 +93,6 @@ class App extends Component {
           </tbody>
         </table>
     );
-  }
 }
 
 function initMapStateToProps(data) {
@@ -117,4 +101,6 @@ function initMapStateToProps(data) {
   }
 }
 
-export default connect(initMapStateToProps)(App);
+const mapDispatchToProps = { getData };
+
+export default connect(initMapStateToProps, mapDispatchToProps)(App);
